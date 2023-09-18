@@ -1,10 +1,15 @@
 # <p align="center">Weather Data</p>
 
-J'sais pas encore ce que c'est
+A weather data manager
 
 ## 🧐 Features
 
--   aucune pour le moment, updates en cours
+- Consult the data
+- Filter data
+- Select dates based on a condition
+- Add dates
+- Delete dates
+- Correct dates
 
 ## 🙇 Authors
 
