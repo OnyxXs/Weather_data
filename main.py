@@ -1,25 +1,19 @@
-from fastapi import FastAPI
 import json
+from typing import List
+
+from fastapi import FastAPI, Query
 
 app = FastAPI()
 
-# Charger les données depuis un fichier JSON
-def charger_donnees():
-    try:
-        with open("rdu-weather-history.json", "r") as fichier:
-            donnees = json.load(fichier)
-        return donnees
-    except FileNotFoundError:
-        return {"message": "Fichier JSON non trouvé"}
-    except json.JSONDecodeError as e:
-        return {"error": "Erreur de décodage JSON", "details": str(e)}
 
-# Endpoint pour afficher les données du fichier JSON
-@app.get("/afficher-donnees")
-async def afficher_donnees():
-    donnees = charger_donnees()
-    return donnees
+with open("rdu-weather-history.json", "r") as file:
+    weather_data = json.load(file)
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+@app.get("/weather")
+async def get_weather_filter_date(
+    start_date: str = Query(..., description="Starting Date : "),
+    end_date: str = Query(..., description="Ending Date : ")
+) -> List[dict]:
+    date_data = [data for data in weather_data if start_date <= data["date"] <= end_date]
+    return date_data
