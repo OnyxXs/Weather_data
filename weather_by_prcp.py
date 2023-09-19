@@ -8,7 +8,7 @@ with open("rdu-weather-history.json", "r") as file:
     weather_data = json.load(file)
 
 
-@app.get("/prcp/filter")
+@app.get("/weather_by_prcp")
 async def get_weather_filter_prcp(
         min_prcp: float = Query(..., description="Précipitation minimale"),
         max_prcp: float = Query(..., description="Précipitation maximale")
