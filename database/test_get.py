@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from database import get_database_connection  # Importez la fonction de connexion depuis database.py
+from database.database import get_database_connection  # Importez la fonction de connexion depuis database.py
 
 app = FastAPI()
 
