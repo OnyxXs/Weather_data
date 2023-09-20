@@ -1,7 +1,33 @@
 import json
 from typing import List
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, HTTPException, Body
+
 app = FastAPI()
+
+@app.post("/weather")
+async def create_weather_entry(
+    weather_entry: dict = Body(
+        ...,
+        description="Nouvelle entrée de données météorologiques au format JSON.",
+        example={
+            "date": "2017-01-01",
+            "tmin": 41,
+            "tmax": 50,
+            "prcp": 0.54,
+            "snow": 0.0,
+            "snwd": 0.0,
+            "awnd": 6.49
+        }
+    )
+):
+    # Ajoutez la nouvelle entrée de données météorologiques à la liste existante
+    weather_data.append(weather_entry)
+    
+    # Vous pouvez également enregistrer ces modifications dans le fichier JSON si nécessaire
+    with open("rdu-weather-history.json", "w") as file:
+        json.dump(weather_data, file, indent=2)
+    
+    return weather_entry
 
 # Chargement des données météorologiques depuis un fichier JSON
 with open("rdu-weather-history.json", "r") as file:
