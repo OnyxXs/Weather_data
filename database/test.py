@@ -9,11 +9,13 @@ app = FastAPI()
 database = create_database_instance()
 
 
+# fonction d'événement pour démarrer la connexion à la bdd au démarrage de l'application
 @app.on_event("startup")
 async def startup_db_client():
     await database.connect()
 
 
+#  fonction d'événement pour arréter la connexion à la bddd à l'arrêt de l'application
 @app.on_event("shutdown")
 async def shutdown_db_client():
     await database.disconnect()
