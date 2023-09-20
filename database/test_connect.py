@@ -1,23 +1,46 @@
+from typing import List
+from urllib.parse import urlparse
+
+from databases import Database
 from fastapi import FastAPI
-from database.database import SessionLocal
+from pydantic import BaseModel
+import pymysql
+from sqlalchemy import MetaData, Table, Column, Integer, String, select
+
+DATABASE_URL = "mysql+pymysql://root:root@127.0.0.1:8889/Weather?serverVersion=5.7"
+
+database = Database(DATABASE_URL)
+
+metadata = MetaData()
+
+country = Table(
+    "country",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("name", String),
+)
+
+
+class Country(BaseModel):
+    id: int
+    name: str
 
 
 app = FastAPI()
 
 
-# Votre code FastAPI
+@app.on_event("startup")
+async def startup_db_client():
+    await database.connect()
 
-@app.get("/")
-async def read_root():
-    # Créez une session SQLAlchemy pour interagir avec la base de données
-    db = SessionLocal()
 
-    try:
-        # Exemple : Effectuez une requête pour récupérer des données depuis la base de données
-        result = db.execute("SELECT * FROM city").fetchall()
-        return {"data": result}
-    except Exception as e:
-        return {"error": str(e)}
-    finally:
-        # Fermez la session lorsque vous avez terminé
-        db.close()
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    await database.disconnect()
+
+
+@app.get("/notes/", response_model=List[Country])
+async def read_country():
+    query = select([country])
+    results = await database.fetch_all(query)
+    return results
