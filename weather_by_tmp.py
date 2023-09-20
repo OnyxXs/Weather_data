@@ -25,3 +25,4 @@ async def filter_by_temperature(
     """
     filtered_data = [data for data in weather_data if min_tmp <= data["tmin"] <= max_tmp]
     return filtered_data
+é
