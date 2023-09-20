@@ -1,27 +1,25 @@
-import mysql.connector
-from mysql.connector import Error
-from urllib.parse import urlparse
+from decouple import config
+from databases import Database
+from fastapi import FastAPI
 
 
-def get_database_connection():
-    url = urlparse("mysql://root:root@127.0.0.1:8889/Weather?serverVersion=5.7")
-    user = url.username
-    password = url.password
-    host = url.hostname
-    port = url.port
-    database = url.path[1:]
+# Créer une instance de base de données à partir de l'URL de la base de données (qui est dans le fichier env)
+def create_database_instance():
+    database_url = config('DATABASE_URL')
+    return Database(database_url)
 
-    try:
-        connection = mysql.connector.connect(
-            host=host,
-            port=port,
-            database=database,
-            user=user,
-            password=password
-        )
 
-        return connection
+database = create_database_instance()
+app = FastAPI()
 
-    except Error as e:
-        print("Error while connecting to MySQL", e)
-        return None
+
+# fonction d'événement pour démarrer la connexion à la bdd au démarrage de l'application
+@app.on_event("startup")
+async def startup_db_client():
+    await database.connect()
+
+
+#  fonction d'événement pour arréter la connexion à la bddd à l'arrêt de l'application
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    await database.disconnect()
