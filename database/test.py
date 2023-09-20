@@ -1,28 +1,20 @@
-from typing import List
+from fastapi import HTTPException, APIRouter
+from database.database import connect_to_database, close_database_connection
 
-from fastapi import FastAPI
-from sqlalchemy import select
-from database.database import create_database_instance
-from database.models import Country, country
-
-app = FastAPI()
-database = create_database_instance()
+router_country = APIRouter()
 
 
-# fonction d'événement pour démarrer la connexion à la bdd au démarrage de l'application
-@app.on_event("startup")
-async def startup_db_client():
-    await database.connect()
-
-
-#  fonction d'événement pour arréter la connexion à la bddd à l'arrêt de l'application
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    await database.disconnect()
-
-
-@app.get("/country/", response_model=List[Country])
+@router_country.get('/country')
 async def read_country():
-    query = select([country])
-    results = await database.fetch_all(query)
-    return results
+    try:
+        conn, cursor = connect_to_database()
+        cursor.execute(
+            "SELECT * FROM country"
+        )
+        country = cursor.fetchall()
+        close_database_connection()
+        if not country:
+            raise HTTPException(status_code=404, detail="Aucune boisson trouvée pour cet utilisateur")
+        return {"country": country}, 200
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
