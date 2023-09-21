@@ -9,6 +9,17 @@ async def read_weather_by_date(
     start_date: str = Query(..., description="Date de début : "),
     end_date: str = Query(..., description="Date de fin : ")
 ):
+    """
+          Obtenez des données météorologiques filtrées en fonction des dates spécifiées.
+
+          Args:
+              start_date (str): Date de début pour la filtration.
+              end_date (str): Date de fin pour la filtration.
+
+          Returns:
+              tuple: Un tuple contenant le dictionnaire des données météorologiques avec la clé "weather"
+               et le code de statut HTTP (200 en cas de succès).
+    """
     try:
         conn, cursor = connect_to_database()
         cursor.execute(
