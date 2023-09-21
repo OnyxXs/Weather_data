@@ -1,25 +1,25 @@
-from fastapi import HTTPException, APIRouter, Query
-from pydantic import BaseModel
-from pymysql import Date
-
+from fastapi import HTTPException, APIRouter
 from database.database import connect_to_database, close_database_connection
-from fastapi import Query
+from database.models import Temp
+
 router_create_date = APIRouter()
-
-
-class Temp(BaseModel):
-    date: Date
-    Tmin: float
-    Tmax: float
-    prpc: float
-    snow: float
-    swnd: float
-    awnd: float
-    city_id: int
 
 
 @router_create_date.post('/create_date', tags=["Temp"])
 async def create_date(temp: Temp):
+    """
+     Crée une nouvelle entrée de date météorologique dans la base de données.
+
+     Args:
+         temp (Temp): Un objet Temp contenant les données de la date météorologique.
+
+     Returns:
+         dict: Un message de confirmation si la date est créée avec succès.
+
+     Raises:
+         HTTPException (400): En cas d'erreur attributaire.
+         HTTPException (500): En cas d'autres erreurs inattendues.
+     """
     try:
         conn, cursor = connect_to_database()
         cursor.execute(
@@ -28,7 +28,7 @@ async def create_date(temp: Temp):
         )
         conn.commit()
         close_database_connection()
-        return {"message": "Oui"}, 200
+        return {"message": "La date a bien été crée"}, 200
     except AttributeError as e:
         conn.rollback()
         return {"error": "Une erreur d'attribut s'est produite.", "details": str(e)}, 400
