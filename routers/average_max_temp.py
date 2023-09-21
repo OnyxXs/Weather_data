@@ -1,0 +1,21 @@
+from fastapi import HTTPException, APIRouter, Query
+from database.database import connect_to_database, close_database_connection
+
+router_average_max_temp = APIRouter()
+
+
+@router_average_max_temp.get('/average_max_temp')
+async def average_max_temp(city_id: int = Query(..., description="ID de la ville pour la moyenne Tmax")):
+    try:
+        conn, cursor = connect_to_database()
+        cursor.execute(
+            "SELECT AVG(Tmax) as average_max_temp FROM temp WHERE city_id = %s",
+            (city_id,)
+        )
+        data_average_max_temp = cursor.fetchone()
+        close_database_connection()
+        if not data_average_max_temp:
+            raise HTTPException(status_code=404, detail="Aucune données météorologiques pour la ville spécifiée")
+        return {"average_max_temp": data_average_max_temp['average_max_temp']}, 200
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
