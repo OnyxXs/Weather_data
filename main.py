@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI
 from starlette.requests import Request
 
 # import des modules de route
@@ -16,6 +16,8 @@ from routers.average_min_temp import router_average_min_temp
 from routers.average_max_temp import router_average_max_temp
 from routers.absolute_average import router_absolute_average
 from routers.average_temp_country import router_average_temp_country
+from routers.suppr_city import router_suppr_city
+from routers.suppr_country import router_suppr_country
 
 
 app = FastAPI()
@@ -41,7 +43,7 @@ app.include_router(router_show_country)
 app.include_router(router_weather_by_date)
 app.include_router(router_create_date)
 app.include_router(router_modif_date)
-app.include_router(router_delete_date)
+app.include_router(router_suppr_date)
 app.include_router(router_order_by_prpc)
 app.include_router(router_order_by_tmax)
 app.include_router(router_order_by_tmin)
@@ -49,6 +51,9 @@ app.include_router(router_average_min_temp)
 app.include_router(router_average_max_temp)
 app.include_router(router_absolute_average)
 app.include_router(router_average_temp_country)
+app.include_router(router_suppr_city)
+app.include_router(router_suppr_country)
+
 
 if __name__ == "__main__":
     import uvicorn
