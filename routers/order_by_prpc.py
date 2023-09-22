@@ -7,7 +7,7 @@ router_order_by_prpc = APIRouter()
 @router_order_by_prpc.get('/order_by_prpc')
 async def order_by_prpc():
     """
-    Gère la requête GET pour obtenir des données météorologiques triées par prpc.
+    Gère la requête GET pour obtenir des données météorologiques triées par précipitations.
 
     Raises:
         HTTPException: En cas d'erreur, renvoie une réponse HTTP appropriée avec un code d'erreur.
