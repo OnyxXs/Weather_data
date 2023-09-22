@@ -1,6 +1,7 @@
 from fastapi import FastAPI, APIRouter
 from starlette.requests import Request
 
+# import des modules de route
 from routers.show_temp import router_show_temp
 from routers.show_city import router_show_city
 from routers.show_country import router_show_country
@@ -18,7 +19,7 @@ from routers.average_temp_country import router_average_temp_country
 
 
 app = FastAPI()
-
+# compteur global de routes et définition des routes à exclures
 route_counter = 0
 excluded_routes = ["/redoc", "/openapi.json", "/docs"]
 
@@ -33,6 +34,7 @@ async def count_routes(request: Request, call_next):
     response = await call_next(request)
     return response
 
+# inclusion des routes dans l'app
 app.include_router(router_show_temp)
 app.include_router(router_show_city)
 app.include_router(router_show_country)
@@ -50,8 +52,4 @@ app.include_router(router_average_temp_country)
 
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run(app, host="127.0.0.1", port=8000)
-
-
-
