@@ -68,7 +68,6 @@ app.include_router(router_absolute_average)
 app.include_router(router_average_temp_country)
 app.include_router(router_suppr_city)
 app.include_router(router_suppr_country)
-app.include_router(router_patch_temp)
 
 
 if __name__ == "__main__":
