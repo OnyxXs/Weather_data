@@ -31,7 +31,7 @@ async def delete_city(city_id: int):
         cursor.execute("DELETE FROM city WHERE id = %s", (city_id,))  # Suppression de l'entrée de données de city
         conn.commit()  # Validation des modifications dans la base de données
         return {"message": "city supprimée avec succès"}, 200  # Renvoie un message de confirmation
-    except Exception as e:
-        raise e  # Gestion des exceptions et renvoi de l'exception en cas de problème
+    except AttributeError as e:
+        raise HTTPException(status_code=404, detail=str(e))  # Gestion des exceptions et renvoi d'une erreur 500 en cas de problème
     finally:
         close_database_connection()  # Fermeture de la connexion à la base de données en toutes circonstances

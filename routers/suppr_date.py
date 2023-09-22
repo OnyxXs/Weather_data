@@ -1,6 +1,5 @@
 from fastapi import HTTPException, APIRouter
 from database.database import connect_to_database, close_database_connection
-from database.models import Temp
 
 # Création d'un routeur FastAPI pour gérer la suppression de données de température par ID
 router_suppr_date = APIRouter()
@@ -32,7 +31,7 @@ async def delete_temp(temp_id: int):
         cursor.execute("DELETE FROM Temp WHERE id = %s", (temp_id,))  # Suppression de l'entrée de données de température par ID
         conn.commit()  # Validation des modifications dans la base de données
         return {"message": "Température supprimée avec succès"}, 200  # Renvoie un message de confirmation
-    except Exception as e:
-        raise e  # Gestion des exceptions et renvoi de l'exception en cas de problème
+    except AttributeError as e:
+        raise HTTPException(status_code=404,detail=str(e))  # Gestion des exceptions et renvoi d'une erreur 500 en cas de problème
     finally:
         close_database_connection()  # Fermeture de la connexion à la base de données en toutes circonstances
