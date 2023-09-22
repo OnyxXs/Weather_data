@@ -2,11 +2,11 @@ from fastapi import HTTPException, APIRouter
 from database.database import connect_to_database, close_database_connection
 from database.models import Temp
 
-router_modif_date = APIRouter()
+router_modif_temp = APIRouter()
 
 
-@router_modif_date.put('/modif_date/{temp_id}')
-def modif_date(temp_id: int, temp: Temp):
+@router_modif_temp.put('/temp/{temp_id}')
+def modif_temp(temp_id: int, temp: Temp):
     """
        Met à jour les données de date météorologique dans la base de données.
 
@@ -18,11 +18,14 @@ def modif_date(temp_id: int, temp: Temp):
            dict: Un message de confirmation si la mise à jour est réussie.
 
        Raises:
-           HTTPException (404): Si la date météorologique avec l'ID spécifié n'est pas trouvée.
+           HTTPException (404): Si la country avec l'ID spécifié n'est pas trouvée.
+           HTTPException (400): Si les données d'entrée ne sont pas valides.
            HTTPException (500): En cas d'autres erreurs inattendues lors de la mise à jour.
     """
     conn, cursor = connect_to_database()
     try:
+        if not isinstance(temp_id, int) or temp_id <= 0:
+            raise HTTPException(status_code=400, detail="ID de temp invalide")
         query = "SELECT * FROM Temp WHERE id = %s"
         cursor.execute(query, (temp_id,))
         temp_table = cursor.fetchone()
@@ -33,7 +36,10 @@ def modif_date(temp_id: int, temp: Temp):
         cursor.execute(query, values)
         conn.commit()
         return {"message": "Mise à jour réussie"}
+    except HTTPException as http_error:
+        raise http_error
     except Exception as e:
-        raise e
+        raise HTTPException(status_code=500, detail=str(e))
     finally:
         close_database_connection()
+

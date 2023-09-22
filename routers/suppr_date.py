@@ -6,8 +6,8 @@ from database.models import Temp
 router_suppr_date = APIRouter()
 
 
-@router_suppr_date.delete('/delete_date/{temp_id}')
-async def delete_temp(temp_id: int):
+@router_suppr_date.delete('/suppr_date/{temp_id}')
+async def suppr_temp(temp_id: int):
     """
     Supprime une entrée de données de température de la table "Temp" de la base de données
     en utilisant l'ID spécifié.
