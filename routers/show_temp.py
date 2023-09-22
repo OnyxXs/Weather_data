@@ -5,7 +5,7 @@ from database.database import connect_to_database, close_database_connection
 router_show_temp = APIRouter()
 
 
-@router_show_temp.get('/temp', tags=["Temp"])
+@router_show_temp.get('/temps', tags=["Temp"])
 async def read_temp(page_number: int = Query(1, description="Numéro de la page"),
                     rows_per_page: int = Query(..., description="Nombre de lignes par page")):
     """

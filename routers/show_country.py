@@ -5,7 +5,7 @@ from database.database import connect_to_database, close_database_connection
 router_show_country = APIRouter()
 
 
-@router_show_country.get('/country', tags=["Country"])
+@router_show_country.get('/countries', tags=["Country"])
 async def read_country(page_number: int = Query(1, description="Numéro de la page"),
                        rows_per_page: int = Query(..., description="Nombre de lignes par page")):
     """

@@ -7,6 +7,8 @@ from routers.show_city import router_show_city
 from routers.show_country import router_show_country
 from routers.weather_by_date import router_weather_by_date
 from routers.create_date import router_create_date
+from routers.create_city import router_create_city
+from routers.create_country import router_create_country
 from routers.modif_temp import router_modif_temp
 from routers.modif_city import router_modif_city
 from routers.modif_country import router_modif_country
@@ -14,12 +16,16 @@ from routers.suppr_date import router_suppr_date
 from routers.order_by_prpc import router_order_by_prpc
 from routers.order_by_tmax import router_order_by_tmax
 from routers.order_by_tmin import router_order_by_tmin
+from routers.order_by_snow import router_order_by_snow
+from routers.order_by_swnd import router_order_by_swnd
+from routers.order_by_awnd import router_order_by_awnd
 from routers.average_min_temp import router_average_min_temp
 from routers.average_max_temp import router_average_max_temp
 from routers.absolute_average import router_absolute_average
 from routers.average_temp_country import router_average_temp_country
 from routers.suppr_city import router_suppr_city
 from routers.suppr_country import router_suppr_country
+from routers.patch_temp import router_patch_temp
 
 
 app = FastAPI()
@@ -43,6 +49,8 @@ app.include_router(router_show_temp)
 app.include_router(router_show_city)
 app.include_router(router_show_country)
 app.include_router(router_create_date)
+app.include_router(router_create_city)
+app.include_router(router_create_country)
 app.include_router(router_modif_temp)
 app.include_router(router_modif_city)
 app.include_router(router_modif_country)
@@ -51,12 +59,16 @@ app.include_router(router_weather_by_date)
 app.include_router(router_order_by_prpc)
 app.include_router(router_order_by_tmax)
 app.include_router(router_order_by_tmin)
+app.include_router(router_order_by_snow)
+app.include_router(router_order_by_swnd)
+app.include_router(router_order_by_awnd)
 app.include_router(router_average_min_temp)
 app.include_router(router_average_max_temp)
 app.include_router(router_absolute_average)
 app.include_router(router_average_temp_country)
 app.include_router(router_suppr_city)
 app.include_router(router_suppr_country)
+app.include_router(router_patch_temp)
 
 
 if __name__ == "__main__":

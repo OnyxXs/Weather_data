@@ -5,7 +5,7 @@ from database.models import City
 router_modif_city = APIRouter()
 
 
-@router_modif_city.put('/city/{city_id}', tags=["City"])
+@router_modif_city.put('/cities/{city_id}', tags=["City"])
 def modif_city(city_id: int, city: City):
     """
        Met à jour les données de City dans la base de données.

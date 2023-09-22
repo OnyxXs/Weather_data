@@ -4,7 +4,8 @@ from database.database import connect_to_database, close_database_connection
 # Création d'un routeur FastAPI pour la gestion des requêtes liées à l'ordre par Tmin
 router_order_by_tmin = APIRouter()
 
-@router_order_by_tmin.get('/order_by_tmin')
+
+@router_order_by_tmin.get('/tmin', tags=["Order By"])
 async def order_by_tmin():
     """
     Gère la requête GET pour obtenir des données météorologiques triées par Tmin (température minimale).

@@ -5,7 +5,7 @@ from database.database import connect_to_database, close_database_connection
 router_show_city = APIRouter()
 
 
-@router_show_city.get('/city', tags=["City"])
+@router_show_city.get('/cities', tags=["City"])
 async def read_city(page_number: int = Query(1, description="Numéro de la page"),
                     rows_per_page: int = Query(..., description="Nombre de lignes par page")):
     """
