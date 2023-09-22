@@ -7,7 +7,9 @@ from routers.show_city import router_show_city
 from routers.show_country import router_show_country
 from routers.weather_by_date import router_weather_by_date
 from routers.create_date import router_create_date
-from routers.modif_date import router_modif_date
+from routers.modif_temp import router_modif_temp
+from routers.modif_city import router_modif_city
+from routers.modif_country import router_modif_country
 from routers.suppr_date import router_suppr_date
 from routers.order_by_prpc import router_order_by_prpc
 from routers.order_by_tmax import router_order_by_tmax
@@ -42,7 +44,9 @@ app.include_router(router_show_city)
 app.include_router(router_show_country)
 app.include_router(router_weather_by_date)
 app.include_router(router_create_date)
-app.include_router(router_modif_date)
+app.include_router(router_modif_temp)
+app.include_router(router_modif_city)
+app.include_router(router_modif_country)
 app.include_router(router_suppr_date)
 app.include_router(router_order_by_prpc)
 app.include_router(router_order_by_tmax)
