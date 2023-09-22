@@ -5,7 +5,7 @@ from database.models import Country
 router_modif_country = APIRouter()
 
 
-@router_modif_country.put('/country/{country_id}')
+@router_modif_country.put('/country/{country_id}', tags=["Country"])
 def modif_country(country_id: int, country: Country):
     """
        Met à jour les données de Country dans la base de données.

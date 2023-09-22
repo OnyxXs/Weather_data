@@ -5,7 +5,7 @@ from database.database import connect_to_database, close_database_connection
 router_suppr_date = APIRouter()
 
 
-@router_suppr_date.delete('/suppr_date/{temp_id}')
+@router_suppr_date.delete('/temp/{temp_id}', tags=["Temp"])
 async def suppr_temp(temp_id: int):
     """
     Supprime une entrée de données de température de la table "Temp" de la base de données

@@ -5,11 +5,15 @@ from database.database import connect_to_database, close_database_connection
 router_show_temp = APIRouter()
 
 
-@router_show_temp.get('/show_temp')
+@router_show_temp.get('/temp', tags=["Temp"])
 async def read_temp(page_number: int = Query(1, description="Numéro de la page"),
-):
+                    rows_per_page: int = Query(..., description="Nombre de lignes par page")):
     """
-    Récupère toutes les données de température depuis la table "Temp" de la base de données.
+    Récupère toutes les données de température depuis la table "Temp" de la base de données. Paginée
+
+    Args:
+        page_number (int): Numéro de la page (par défaut : 1).
+        rows_per_page (int): Nombre de lignes par page (par défaut : 10).
 
     Returns:
         dict: Un dictionnaire contenant les données de température.
@@ -23,7 +27,7 @@ async def read_temp(page_number: int = Query(1, description="Numéro de la page"
         conn, cursor = connect_to_database()  # Établissement d'une connexion à la base de données
         cursor.execute(
             f"SELECT * FROM Temp "
-            f"LIMIT 10 OFFSET {(page_number - 1) * 10}"
+            f"LIMIT {rows_per_page} OFFSET {(page_number - 1) * rows_per_page}"
         )
         temp = cursor.fetchall()  # Récupération de toutes les données de température depuis la base de données
         close_database_connection()  # Fermeture de la connexion à la base de données
