@@ -5,7 +5,7 @@ from database.models import Temp
 router_modif_temp = APIRouter()
 
 
-@router_modif_temp.put('/temp/{temp_id}', tags=["Temp"])
+@router_modif_temp.put('/temps/{temp_id}', tags=["Temp"])
 def modif_temp(temp_id: int, temp: Temp):
     """
        Met à jour les données de date météorologique dans la base de données.

@@ -5,7 +5,7 @@ from database.models import Temp
 router_create_date = APIRouter()
 
 
-@router_create_date.post('/temp', tags=["Temp"])
+@router_create_date.post('/temps', tags=["Temp"])
 async def create_temp(temp: Temp):
     """
      Crée une nouvelle entrée de témpérature météorologique dans la base de données.

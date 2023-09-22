@@ -5,7 +5,7 @@ from database.database import connect_to_database, close_database_connection
 router_suppr_city = APIRouter()
 
 
-@router_suppr_city.delete('/city/{city_id}', tags=["City"])
+@router_suppr_city.delete('/cities/{city_id}', tags=["City"])
 async def delete_city(city_id: int):
     """
     Supprime une entrée de données de température de la table "City" de la base de données

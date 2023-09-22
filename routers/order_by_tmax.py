@@ -4,7 +4,8 @@ from database.database import connect_to_database, close_database_connection
 # Création d'un routeur FastAPI pour la gestion des requêtes liées à l'ordre par Tmax
 router_order_by_tmax = APIRouter()
 
-@router_order_by_tmax.get('/order_by_tmax')
+
+@router_order_by_tmax.get('/tmax', tags=["Order By"])
 async def order_by_tmax():
     """
     Gère la requête GET pour obtenir des données météorologiques triées par Tmax (température maximale).
