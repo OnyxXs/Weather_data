@@ -1,13 +1,19 @@
-from fastapi import HTTPException, APIRouter
+from fastapi import HTTPException, APIRouter, Query
 from database.database import connect_to_database, close_database_connection
 
 # Création d'un routeur FastAPI pour gérer les opérations liées aux villes
 router_show_city = APIRouter()
 
-@router_show_city.get('/show_city')
-async def read_city():
+
+@router_show_city.get('/city', tags=["City"])
+async def read_city(page_number: int = Query(1, description="Numéro de la page"),
+                    rows_per_page: int = Query(..., description="Nombre de lignes par page")):
     """
     Récupère toutes les données des villes depuis la table "City" de la base de données.
+
+    Args:
+        page_number (int): Numéro de la page (par défaut : 1).
+        rows_per_page (int): Nombre de lignes par page (par défaut : 10).
 
     Returns:
         dict: Un dictionnaire contenant les données des villes.
@@ -20,7 +26,8 @@ async def read_city():
     try:
         conn, cursor = connect_to_database()  # Établissement d'une connexion à la base de données
         cursor.execute(
-            "SELECT * FROM City"
+            f"SELECT * FROM City "
+            f"LIMIT {rows_per_page} OFFSET {(page_number - 1) * rows_per_page}"
         )
         city = cursor.fetchall()  # Récupération de toutes les données des villes depuis la base de données
         close_database_connection()  # Fermeture de la connexion à la base de données
