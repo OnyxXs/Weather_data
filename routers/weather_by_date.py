@@ -1,4 +1,4 @@
-from fastapi import HTTPException, APIRouter, Query
+from fastapi import HTTPException, APIRouter
 from database.database import connect_to_database, close_database_connection
 from fastapi import Query
 router_weather_by_date = APIRouter()

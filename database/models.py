@@ -2,6 +2,12 @@ from mysql.connector import Date
 from pydantic import BaseModel
 
 
+class City(BaseModel):
+    id: int
+    name: str
+    country_id: int
+
+
 class Country(BaseModel):
     id: int
     name: str

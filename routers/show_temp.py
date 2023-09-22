@@ -1,11 +1,13 @@
-from fastapi import HTTPException, APIRouter
+from fastapi import HTTPException, APIRouter, Query
 from database.database import connect_to_database, close_database_connection
 
 # Création d'un routeur FastAPI pour gérer les opérations liées aux températures
 router_show_temp = APIRouter()
 
+
 @router_show_temp.get('/show_temp')
-async def read_temp():
+async def read_temp(page_number: int = Query(1, description="Numéro de la page"),
+):
     """
     Récupère toutes les données de température depuis la table "Temp" de la base de données.
 
@@ -20,7 +22,8 @@ async def read_temp():
     try:
         conn, cursor = connect_to_database()  # Établissement d'une connexion à la base de données
         cursor.execute(
-            "SELECT * FROM Temp"
+            f"SELECT * FROM Temp "
+            f"LIMIT 10 OFFSET {(page_number - 1) * 10}"
         )
         temp = cursor.fetchall()  # Récupération de toutes les données de température depuis la base de données
         close_database_connection()  # Fermeture de la connexion à la base de données

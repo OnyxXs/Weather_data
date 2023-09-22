@@ -3,9 +3,10 @@ from database.database import connect_to_database, close_database_connection
 from database.models import Temp
 
 # Création d'un routeur FastAPI pour gérer la suppression de données de température par ID
-router_delete_date = APIRouter()
+router_suppr_date = APIRouter()
 
-@router_delete_date.delete('/delete_date/{temp_id}')
+
+@router_suppr_date.delete('/delete_date/{temp_id}')
 async def delete_temp(temp_id: int):
     """
     Supprime une entrée de données de température de la table "Temp" de la base de données
